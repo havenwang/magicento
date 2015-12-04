@@ -7,7 +7,7 @@ import boto3
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 LOG = logging.getLogger(__name__)
 
-from magicento import magicento
+import magicento
 
 def process_message(message):
   body = json.loads(message.body)
