@@ -10,8 +10,15 @@ LOG = logging.getLogger(__name__)
 from magicento import magicento
 
 def process_message(message):
-  beanstalk = magicento.Beanstalk()
-  beanstalk.create_beanstalk()
+  body = json.loads(message.body)
+  appname = body.get('appname')
+  version = body.get('version')
+  source_bundle = body.get('source_bundle')
+  action = body.get('action')
+  service = body.get('service')
+  if action == 'create' and service == 'environments':
+    beanstalk = magicento.Beanstalk()
+    beanstalk.create_beanstalk(appname, version, source_bundle)
 
 
 def poll():
@@ -21,7 +28,7 @@ def poll():
   instance_id = response.get('instanceId')
   region = response.get('region')
   boto3.setup_default_session(region_name=region)
-  
+
   while True:
       LOG.info("Checking for message from SQS.")
       try:
