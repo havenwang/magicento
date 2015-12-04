@@ -16,7 +16,7 @@ def process_message(message):
   source_bundle = body.get('source_bundle')
   action = body.get('action')
   service = body.get('service')
-  if action == 'create' and service == 'environments':
+  if action == 'create' and service == 'environment':
     beanstalk = magicento.Beanstalk()
     beanstalk.create_beanstalk(appname, version, source_bundle)
 
